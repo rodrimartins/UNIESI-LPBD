@@ -47,7 +47,7 @@ ON usuario
 FOR each row
   BEGIN
 	set @nomeU  = new.nome;
-    set @qtd = char_length(@nomeU);
+    set @qtd = char_length(@nomeU); -- quantidade de caracter
     if (@qtd<=4) or (@nomeU = '') then
 		set new.nome="usuarioPadrao";
     end if;
@@ -56,7 +56,7 @@ DELIMITER ;
 
 show triggers;
 
-INSERT INTO usuario(nome) values ("A");
+INSERT INTO usuario(nome) values ("");
 
 INSERT INTO usuario(nome) values ("rodrimartins");
 
@@ -85,7 +85,6 @@ Venda INT,
 Produto VARCHAR(3),
 Quantidade INT);
 
-
 -- baixa estoque 
 CREATE TRIGGER Trg_ItensVenda_Insert AFTER INSERT
 ON ItensVenda
@@ -93,9 +92,11 @@ FOR EACH ROW
     UPDATE Produtos SET Estoque = Estoque - NEW.Quantidade
 	WHERE Referencia = NEW.Produto;
     
-INSERT INTO ItensVenda VALUES (2, '001',3);
-INSERT INTO ItensVenda VALUES (1, '002',1);
-INSERT INTO ItensVenda VALUES (1, '003',5);
+show triggers;
+    
+INSERT INTO ItensVenda VALUES (1, '001',3);
+INSERT INTO ItensVenda VALUES (2, '002',1);
+INSERT INTO ItensVenda VALUES (3, '003',6);
 
 select * from produtos;
 
@@ -108,7 +109,7 @@ FOR EACH ROW
     UPDATE produtos SET Estoque = Estoque + OLD.Quantidade
 	WHERE Referencia = OLD.Produto;
 
-DELETE FROM itensvenda WHERE Venda = 2 AND Produto = '001';
+DELETE FROM itensvenda WHERE Venda = 1 AND Produto = '001';
 
 -- exemplo 3 de trigger
 CREATE DATABASE exemploTRIGGER3;
@@ -141,6 +142,8 @@ FOR EACH row
     
 insert cliente (nome, email, endereco) values
 ("Rodrigo","rodrigo@gmail.com","Rua 4");
+
+select current_time();
 
 
 
